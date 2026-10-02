@@ -34,6 +34,7 @@ for a third mobile compile with -D MOBILE_DELAY=18000
 and they will then be staggered approx 6 seconds + txdelay
 
 Setting | Random transmit delay window | Approx average delay
+
 txdelay 0.2 | 0 to 1000 ms | 500 ms
 
 txdelay 0.3 | 0 to 1500 ms | 750 ms
