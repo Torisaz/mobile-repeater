@@ -54,7 +54,7 @@ set prox.list aa,aaaa,aaaaaa,bb,bbbb,bbbbbb
 
 
 
-It was based on the following code, however it has improved latency and reliability.
+It was based on the following code, however it has improved latency blocking reliability.
 non of my additions are vibed
 
 https://github.com/lil-jimmy-93/ProximitySuppress 
