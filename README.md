@@ -3,11 +3,6 @@ This allows you to run a main house repeater,  with a sub repeater, mobile or fi
 that will only transmit when not in range of the main repeater or will transmit if the 
 main repeater does not hear a message
 
-I have tested it with this configuration
-Main commented out line in ini 6000
-Mobile Rep set 6000 in ini
-backup repeater set to 12000 in ini
-
 setting tx delays up to 1.0 is fine in both mobile rep and house rep 
 set prox.list put your house repeater instead of aa or it wont work
 
@@ -27,10 +22,8 @@ get txdelay
 get direct.delay
 
 
--D MOBILE_DELAY=6000 ;this is in the ini for mobile
+-D MOBILE_DELAY=6000 ; generic for mobile rep up to txdelay 1.0
 
-for a second mobile replace ..compile with -D MOBILE_DELAY=12000
-for a third mobile compile with -D MOBILE_DELAY=18000
 and they will then be staggered approx 6 seconds + txdelay
 
 table of txdelay and direct.txdelay settings to real world
