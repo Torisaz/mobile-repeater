@@ -33,6 +33,8 @@ for a second mobile replace ..compile with -D MOBILE_DELAY=12000
 for a third mobile compile with -D MOBILE_DELAY=18000
 and they will then be staggered approx 6 seconds + txdelay
 
+table of txdelay and direct.txdelay settings to real world
+
 Setting | Random transmit delay window | Approx average delay
 
 txdelay 0.2 | 0 to 1000 ms | 500 ms
