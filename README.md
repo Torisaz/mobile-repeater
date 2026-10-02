@@ -35,9 +35,13 @@ and they will then be staggered approx 6 seconds + txdelay
 
 Setting | Random transmit delay window | Approx average delay
 txdelay 0.2 | 0 to 1000 ms | 500 ms
+
 txdelay 0.3 | 0 to 1500 ms | 750 ms
+
 txdelay 0.5 | 0 to 2500 ms | 1250 ms
+
 txdelay 0.8 | 0 to 4000 ms | 2000 ms
+
 txdelay 1.0 | 0 to 5000 ms | 2500 ms
 
 if you run with txdelay of 0.5 then -D MOBILE_DELAY=3000 ; will bring down latency
