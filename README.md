@@ -45,8 +45,6 @@ if you run with txdelay of 0.5 then -D MOBILE_DELAY=3000 ; will bring down laten
 I haven't got round to trying it monitoring 2 repeaters before transmitting eg
 set prox.list aa,aaaa,aaaaaa,bb,bbbb,bbbbbb
 
-
-
 It was based on the following code, however it has improved latency blocking reliability.
 non of my additions are vibed
 
