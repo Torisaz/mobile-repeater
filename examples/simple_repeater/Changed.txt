@@ -1,0 +1,115 @@
+ProximitySuppress.h
+class ProximitySuppress { 
+// bool matchesLastHop(const mesh::Packet* packet) const;  //shit
+ // bool _suppress_active;
+
+public:
+  bool matchesLastHop(const mesh::Packet* packet) const;
+  bool _suppress_active;
+
+
+
+ProximitySuppress.cpp
+void ProximitySuppress::armSuppress(unsigned long now_ms) {
+ // suppress_isloop =1;   // see MyMesh::isLooped
+ // MESH_DEBUG_PRINTLN("lastHopsuppress_isloop"); 
+  _suppress_active = true;
+
+  _suppress_until_ms = now_ms + (unsigned long)_hold_secs * 1000UL;
+}
+-------------------------------------------------------------------------------
+
+mymesh.cpp
+uint32_t MyMesh::getRetransmitDelay(const mesh::Packet *packet) {
+  uint32_t t = (_radio->getEstAirtimeFor(packet->getPathByteLen() + packet->payload_len + 2) * _prefs.tx_delay_factor);
+
+#ifdef MOBILE_DELAY
+return getRNG()->nextInt(MOBILE_DELAY, 5*t + MOBILE_DELAY);
+#endif
+//new code end
+ return getRNG()->nextInt(0, 5*t + 1);
+}
+
+uint32_t MyMesh::getDirectRetransmitDelay(const mesh::Packet *packet) {
+  uint32_t t = (_radio->getEstAirtimeFor(packet->getPathByteLen() + packet->payload_len + 2) * _prefs.direct_tx_delay_factor);
+
+#ifdef MOBILE_DELAY
+return getRNG()->nextInt(MOBILE_DELAY, 5*t + MOBILE_DELAY);
+#endif
+//new code end 
+
+ return getRNG()->nextInt(0, 5*t + 1);
+
+
+  if (packet->isRouteFlood() && !prox_suppress.allowForward(millis())) {
+    MESH_DEBUG_PRINTLN("allowPacketForward: flood suppressed by prox");
+    return false;
+  }
+
+
+
+
+bool MyMesh::isLooped(const mesh::Packet* packet, const uint8_t max_counters[]) {
+ MESH_DEBUG_PRINTLN("isLooped entered"); 
+  uint8_t hash_size = packet->getPathHashSize();
+  uint8_t hash_count = packet->getPathHashCount();
+  uint8_t n = 0;
+  const uint8_t* path = packet->path;
+  
+    while (hash_count > 0) {      // count how many times this node is already in the path
+    if (self_id.isHashMatch(path, hash_size)) n++;
+    hash_count--;
+    path += hash_size;
+  }
+  //check for is house in path
+  //bool lastHopMatched = prox_suppress.matchesLastHop(packet);
+  //if (lastHopMatched) { MESH_DEBUG_PRINTLN("lastHopMatched n set 10"); n=10;  }
+ if ( _suppress_active;){ n=10; }
+
+ return n >= max_counters[hash_size]; 
+ }
+
+
+
+
+}
+------------------------------------------------------------------------------------
+
+bool MyMesh::allowPacketForward(const mesh::Packet *packet) {
+  if (_prefs.disable_fwd) return false;
+  if (packet->isRouteFlood()
+      && mesh::isFloodHopLimitExceeded(packet, _prefs.flood_max, _prefs.flood_max_unscoped, _prefs.flood_max_advert)) {
+    return false;
+  }
+  if (packet->isRouteFlood() && recv_pkt_region == NULL) {
+    MESH_DEBUG_PRINTLN("allowPacketForward: unknown transport code, or wildcard not allowed for FLOOD packet");
+    return false;
+  }
+  if (packet->isRouteFlood() && !prox_suppress.allowForward(millis())) {
+    MESH_DEBUG_PRINTLN("allowPacketForward: flood suppressed by prox");
+    return false;
+  }
+
+
+  if (packet->isRouteFlood() && _prefs.loop_detect != LOOP_DETECT_OFF) {
+    const uint8_t* maximums;
+    if (_prefs.loop_detect == LOOP_DETECT_MINIMAL) {
+      maximums = max_loop_minimal;
+    } else if (_prefs.loop_detect == LOOP_DETECT_MODERATE) {
+      maximums = max_loop_moderate;
+    } else {
+      maximums = max_loop_strict;
+    }
+    if (isLooped(packet, maximums)) {
+      MESH_DEBUG_PRINTLN("allowPacketForward: FLOOD packet loop detected!");
+      return false;
+    }
+  }
+  /*
+  if (packet->isRouteFlood() && !prox_suppress.allowForward(millis())) {
+    MESH_DEBUG_PRINTLN("allowPacketForward: flood suppressed by prox");
+    return false;
+  }
+ /*
+  return true;
+}
