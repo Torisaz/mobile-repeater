@@ -1,4 +1,4 @@
- 
+Meshcore 1.17 Modded repeater
 This allows you to run a main house repeater,  with a sub repeater, mobile or fixed backup, 
 that will only transmit when not in range of the main repeater or will transmit if the 
 main repeater does not hear a message
