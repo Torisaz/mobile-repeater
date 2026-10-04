@@ -1,4 +1,4 @@
-Meshcore 1.17 Modded repeater
+Meshcore 1.17 Modded repeater 
 This allows you to run a main house repeater,  with a sub repeater, mobile or fixed backup, 
 that will only transmit when not in range of the main repeater or will transmit if the 
 main repeater does not hear a message
@@ -45,7 +45,9 @@ if you run with txdelay of 0.5 then -D MOBILE_DELAY=3000 ; will bring down laten
 I haven't got round to trying it monitoring 2 repeaters before transmitting eg
 set prox.list aa,aaaa,aaaaaa,bb,bbbb,bbbbbb
 
-It was based on the following code.. 
+It was based on the following code which  
 
 https://github.com/lil-jimmy-93/ProximitySuppress 
+
+
 
